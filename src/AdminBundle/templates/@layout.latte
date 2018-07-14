@@ -145,6 +145,12 @@
 
 			<main class="main-content bgc-grey-100">
 				<div id="mainContent">
+					<div class="col-md-12">
+						<div n:foreach="$flashes as $flash"
+								n:class="alert, $flash->type === error ? 'alert-danger' : 'alert-' . $flash->type ">
+							{_$flash->message}
+						</div>
+					</div>
 					{include content}
 				</div>
 			</main>
