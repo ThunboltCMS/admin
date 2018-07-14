@@ -3,12 +3,12 @@
 	"type": "thunbolt-bundle",
 	"extra": {
 		"assets": [
-			"build/assets/*"
+			"assets/*"
 		]
 	},
 	"autoload": {
 		"psr-4": {
-			"Thunbolt\\": "src/"
+			"Thunbolt\\Administration\\": ["src/"]
 		}
 	}
 }

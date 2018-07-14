@@ -36,7 +36,7 @@ class AdminPresenter extends Presenter {
 
 		$template = $this->getTemplate();
 
-		$template->assetsPath = $template->basePath . '/' . ComposerDirectories::PLUGIN_ASSETS_DIR . '/thunbolt-module/admin';
+		$template->assetsPath = $template->basePath . '/' . ComposerDirectories::PLUGIN_ASSETS_DIR . '/thunbolt-module/admin/assets';
 	}
 
 }
