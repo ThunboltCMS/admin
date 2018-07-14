@@ -1,0 +1,14 @@
+{
+	"name": "thunbolt-module/admin",
+	"type": "thunbolt-bundle",
+	"extra": {
+		"assets": [
+			"build/assets/*"
+		]
+	},
+	"autoload": {
+		"psr-4": {
+			"Thunbolt\\": "src/"
+		}
+	}
+}
