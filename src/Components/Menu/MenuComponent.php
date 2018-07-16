@@ -16,6 +16,9 @@ class MenuComponent extends Control {
 	}
 
 	public function render(): void {
+		if (!$this->items) {
+			return;
+		}
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/menu.latte');
 
