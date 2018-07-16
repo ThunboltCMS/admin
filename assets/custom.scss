@@ -1,0 +1,29 @@
+.datagrid {
+	.hidden {
+		//display: none !important;
+	}
+	.datagrid-column-header-additions {
+		float: right;
+	}
+	.foot-wrapper {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.col-per-page {
+			display: flex;
+			input[type="submit"] {
+				margin-left: 5px;
+			}
+			.reset-filter {
+				margin-right: 5px;
+			}
+		}
+	}
+	th {
+		padding: 9px !important;
+	}
+	td {
+		vertical-align: middle !important;
+		padding: 4px 10px !important;
+	}
+}
