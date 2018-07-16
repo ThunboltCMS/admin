@@ -29,6 +29,9 @@ class AdminExtension extends CompilerExtension {
 				->addTag('router');
 		}
 
+		$builder->addDefinition($this->prefix('menu'))
+			->setType(MenuComponent::class);
+
 		if ($config['menu']) {
 			$this->createMenu($config['menu']);
 		}
@@ -69,8 +72,7 @@ class AdminExtension extends CompilerExtension {
 			$setup[] = new Statement('addItem', [new Statement(Menu::class, $args)]);
 		}
 
-		$builder->addDefinition($this->prefix('menu'))
-			->setType(MenuComponent::class)
+		$builder->getDefinition($this->prefix('menu'))
 			->setSetup($setup);
 	}
 
