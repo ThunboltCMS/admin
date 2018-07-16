@@ -23,6 +23,13 @@ class AdminPresenter extends Presenter {
 		}
 	}
 
+	public function formatLayoutTemplateFiles(): array {
+		$list = parent::formatLayoutTemplateFiles();
+		$list[] = __DIR__ . '/AdminBundle/templates/@layout.latte';
+
+		return $list;
+	}
+
 	public function injectAdminBasePresenter(MenuComponent $menuComponent): void {
 		$this->menuComponent = $menuComponent;
 	}
