@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>Dashboard</title>
+	<title n:inner-block="setTitle">Administrace{ifset #title} - {include title|striptags|strip}{/ifset}</title>
 
 	<link rel="stylesheet" href="{$assetsPath}/style.css">
 	<link rel="stylesheet" href="{$assetsPath}/custom.css">
@@ -55,6 +55,12 @@
 				  transform: scale(1.0);
 				  opacity: 0;
 			  }
+		}
+		.checkbox label:before {
+			display: none !important;
+		}
+		input[type="checkbox"] {
+			opacity: 1 !important;
 		}
 	</style>
 </head>
