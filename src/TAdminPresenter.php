@@ -42,6 +42,7 @@ trait TAdminPresenter {
 
 		$template = $this->getTemplate();
 
+		$template->parentLayout = __DIR__ . '/AdminBundle/templates/@layout.latte';
 		$template->assetsPath = $template->basePath . '/' . ComposerDirectories::PLUGIN_ASSETS_DIR . '/thunbolt-module/admin/assets';
 	}
 
