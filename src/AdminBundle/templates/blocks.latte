@@ -1,6 +1,6 @@
 {define panel}
 	{default $type = 'full'}
-	<div n:class="'masonry-item', $type === 'full' ? 'col-md-12' : 'col-md-6'">
+	<div n:if="!isset($isAllowed) || $user->isAllowed(...$isAllowed)" n:class="'masonry-item', $type === 'full' ? 'col-md-12' : 'col-md-6'">
 		<div class="bd bgc-white p-20">
 			<div class="layers">
 				<div n:ifset="$title" class="layer w-100 mB-10"><h6 class="lh-1">{$title}</h6></div>

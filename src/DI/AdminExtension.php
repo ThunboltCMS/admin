@@ -46,6 +46,7 @@ class AdminExtension extends CompilerExtension {
 
 			$args[] = $item['name'];
 			$args[] = (array) $item['url'];
+			$args[] = $item['allows'] ?? null;
 			$args[] = $this->createChildren($item['children'] ?? []);
 
 			$children[] = new Statement(MenuChild::class, $args);
@@ -67,6 +68,7 @@ class AdminExtension extends CompilerExtension {
 			$args[] = (array) $item['url'];
 			$args[] = $item['icon'] ?? null;
 			$args[] = $item['color'] ?? null;
+			$args[] = $item['allows'] ?? null;
 			$args[] = $this->createChildren($item['children'] ?? []);
 
 			$setup[] = new Statement('addItem', [new Statement(Menu::class, $args)]);

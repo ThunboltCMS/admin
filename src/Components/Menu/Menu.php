@@ -10,8 +10,8 @@ class Menu extends MenuChild {
 	/** @var null|string */
 	private $color;
 
-	public function __construct(string $name, array $url, ?string $icon = null, ?string $color = null, array $children = []) {
-		parent::__construct($name, $url, $children);
+	public function __construct(string $name, array $url, ?string $icon = null, ?string $color = null, ?array $allows = null, array $children = []) {
+		parent::__construct($name, $url, $allows, $children);
 		$this->icon = $icon;
 		$this->color = $color;
 	}
