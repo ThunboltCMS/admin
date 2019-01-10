@@ -15,19 +15,12 @@ class AdminExtension extends CompilerExtension {
 
 	/** @var array */
 	public $defaults = [
-		'router' => true,
 		'menu' => [],
 	];
 
 	public function loadConfiguration() {
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
-
-		if ($config['router']) {
-			$builder->addDefinition($this->prefix('router'))
-				->setType(AdminRouter::class)
-				->addTag('router');
-		}
 
 		$builder->addDefinition($this->prefix('menu'))
 			->setType(MenuComponent::class);
