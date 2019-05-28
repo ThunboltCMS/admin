@@ -4,29 +4,46 @@ namespace Thunbolt\Administration\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\DI\Statement;
-use Nette\Utils\Validators;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Thunbolt\Administration\Components\Menu\Menu;
 use Thunbolt\Administration\Components\Menu\MenuChild;
 use Thunbolt\Administration\Components\Menu\MenuComponent;
-use Thunbolt\Administration\Routers\AdminRouter;
+use Thunbolt\Administration\Components\Navbar\NavbarOptionsFactory;
 use Thunbolt\Application\PresenterMapping;
 
 class AdminExtension extends CompilerExtension {
 
-	/** @var array */
-	public $defaults = [
-		'menu' => [],
-	];
+	public function getConfigSchema(): Schema {
+		return Expect::structure([
+			'menu' => Expect::arrayOf(Expect::structure([
+				'name' => Expect::string()->required(),
+				'icon' => Expect::string(),
+				'url' => Expect::type('array|string'),
+				'allows' => Expect::array(),
+				'children' => Expect::arrayOf(Expect::structure([
+					'name' => Expect::string()->required(),
+					'icon' => Expect::string(),
+					'url' => Expect::type('array|string'),
+					'allows' => Expect::array(),
+				]))
+			])),
+			'navbar' => Expect::string(NavbarOptionsFactory::class)
+		]);
+	}
 
 	public function loadConfiguration() {
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->getConfig();
 
 		$builder->addDefinition($this->prefix('menu'))
 			->setType(MenuComponent::class);
 
-		if ($config['menu']) {
-			$this->createMenu($config['menu']);
+		$builder->addDefinition($this->prefix('navbarOptionsFactory'))
+			->setType(NavbarOptionsFactory::class);
+
+		if ($config->menu) {
+			$this->createMenu($config->menu);
 		}
 	}
 
@@ -34,12 +51,10 @@ class AdminExtension extends CompilerExtension {
 		$children = [];
 		foreach ($items as $item) {
 			$args = [];
-			Validators::assertField($item, 'name', 'string');
-			Validators::assertField($item, 'url');
 
-			$args[] = $item['name'];
-			$args[] = (array) $item['url'];
-			$args[] = $item['allows'] ?? null;
+			$args[] = $item->name;
+			$args[] = (array) $item->url;
+			$args[] = $item->allows ?? null;
 			$args[] = $this->createChildren($item['children'] ?? []);
 
 			$children[] = new Statement(MenuChild::class, $args);
@@ -54,14 +69,12 @@ class AdminExtension extends CompilerExtension {
 		$setup = [];
 		foreach ($menu as $item) {
 			$args = [];
-			Validators::assertField($item, 'name', 'string');
-			Validators::assertField($item, 'url');
 
-			$args[] = $item['name'];
-			$args[] = (array) $item['url'];
-			$args[] = $item['icon'] ?? null;
-			$args[] = $item['color'] ?? null;
-			$args[] = $item['allows'] ?? null;
+			$args[] = $item->name;
+			$args[] = (array) $item->url;
+			$args[] = $item->icon;
+			$args[] = null; // color
+			$args[] = $item->allows;
 			$args[] = $this->createChildren($item['children'] ?? []);
 
 			$setup[] = new Statement('addItem', [new Statement(Menu::class, $args)]);

@@ -1,0 +1,28 @@
+.navbar {
+	.brand {
+		padding: 25px 39px;
+		font-size: 22px;
+		&, a {
+			color: #313435;
+		}
+	}
+}
+
+.fullscreen-bg #wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.auth-box {
+	height: auto;
+	&:before {
+		display: none;
+	}
+	.auth-inside {
+		padding: 30px;
+	}
+
+	@media (min-width: 993px) {
+		max-width: 500px;
+	}
+}

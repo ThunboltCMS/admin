@@ -1,11 +1,6 @@
 {
 	"name": "thunbolt-module/admin",
-	"type": "thunbolt-bundle",
-	"extra": {
-		"assets": [
-			"assets/*"
-		]
-	},
+	"type": "library",
 	"autoload": {
 		"psr-4": {
 			"Thunbolt\\Administration\\": ["src/"]

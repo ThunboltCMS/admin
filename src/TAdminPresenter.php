@@ -4,12 +4,16 @@ namespace Thunbolt\Administration;
 
 use Nette\Application\ForbiddenRequestException;
 use Thunbolt\Administration\Components\Menu\MenuComponent;
+use Thunbolt\Administration\Components\Navbar\NavbarOptionsFactory;
 use Thunbolt\Composer\ComposerDirectories;
 
 trait TAdminPresenter {
 
 	/** @var MenuComponent */
 	private $menuComponent;
+
+	/** @var NavbarOptionsFactory */
+	private $navbarOptionsFactory;
 
 	protected function startup() {
 		parent::startup();
@@ -29,11 +33,12 @@ trait TAdminPresenter {
 		return $list;
 	}
 
-	public function injectAdminBasePresenter(MenuComponent $menuComponent): void {
+	final public function injectAdminBasePresenter(MenuComponent $menuComponent, NavbarOptionsFactory $navbarOptionsFactory): void {
 		$this->menuComponent = $menuComponent;
+		$this->navbarOptionsFactory = $navbarOptionsFactory;
 	}
 
-	protected function createComponentMenu(): MenuComponent {
+	final protected function createComponentMenu(): MenuComponent {
 		return $this->menuComponent;
 	}
 
@@ -43,7 +48,19 @@ trait TAdminPresenter {
 		$template = $this->getTemplate();
 
 		$template->parentLayout = __DIR__ . '/AdminBundle/templates/@layout.latte';
-		$template->assetsPath = $template->basePath . '/' . ComposerDirectories::PLUGIN_ASSETS_DIR . '/thunbolt-module/admin/assets';
+		$template->navbarOptions = $this->navbarOptionsFactory->create();
+
+		if (!AdministrationEnvironment::PRODUCTION) {
+			$template->_stylesheet = $template->basePath . '/assets/admin.css';
+			$template->_javascript = $template->basePath . '/assets/admin.js';
+		} else {
+			$version = AdministrationEnvironment::VERSION;
+			$version = $version === false ? '' : '@' . $version;
+
+			$basePath = "https://cdn.jsdelivr.net/gh/ThunboltModules/admin$version/assets/admin.";
+			$template->_stylesheet = $basePath . 'css';
+			$template->_javascript = $basePath . 'js';
+		}
 	}
 
 }

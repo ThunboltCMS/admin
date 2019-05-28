@@ -7,7 +7,7 @@ use Nette\Application\UI\Control;
 class MenuComponent extends Control {
 
 	/** @var Menu[] */
-	private $items;
+	private $items = [];
 
 	public function addItem(Menu $menu) {
 		$this->items[] = $menu;
@@ -16,9 +16,6 @@ class MenuComponent extends Control {
 	}
 
 	public function render(): void {
-		if (!$this->items) {
-			return;
-		}
 		$template = $this->getTemplate();
 		$template->setFile(__DIR__ . '/templates/menu.latte');
 
