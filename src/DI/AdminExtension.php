@@ -87,9 +87,11 @@ class AdminExtension extends CompilerExtension {
 	public function beforeCompile() {
 		$builder = $this->getContainerBuilder();
 
-		$builder->getDefinition('application.presenterFactory')
-			->addSetup('addMapping', ['Admin', new PresenterMapping('Admin')])
-			->addSetup('addMapping', ['Admin', new PresenterMapping('Admin', 'Thunbolt\\Administration')]);
+		if (class_exists(PresenterMapping::class)) {
+			$builder->getDefinition('application.presenterFactory')
+				->addSetup('addMapping', ['Admin', new PresenterMapping('Admin')])
+				->addSetup('addMapping', ['Admin', new PresenterMapping('Admin', 'Thunbolt\\Administration')]);
+		}
 	}
 
 }

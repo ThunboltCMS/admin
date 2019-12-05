@@ -3,6 +3,7 @@
 namespace Thunbolt\Administration;
 
 use Nette\Application\ForbiddenRequestException;
+use Nette\Application\Helpers;
 use Thunbolt\Administration\Components\Menu\MenuComponent;
 use Thunbolt\Administration\Components\Navbar\NavbarOptionsFactory;
 use Thunbolt\Composer\ComposerDirectories;
@@ -18,8 +19,14 @@ trait TAdminPresenter {
 	protected function startup() {
 		parent::startup();
 
-		if (!$this->getUser()->isLoggedIn() && $this->getNames()['presenter'] !== 'Sign') {
-			$this->redirectStore('Sign:in');
+		$presenter = Helpers::splitName($this->name)[1];
+
+		if (!$this->getUser()->isLoggedIn() && $presenter !== 'Sign') {
+			if (method_exists($this, 'redirectStore')) {
+				$this->redirectStore('Sign:in');
+			} else {
+				$this->redirect('Sign:in');
+			}
 		}
 		if ($this->getUser()->isLoggedIn() && !$this->getUser()->isAdmin()) {
 			throw new ForbiddenRequestException('User is not admin.');
